@@ -23,6 +23,9 @@ rsync -rtv /vagrant/binfiles/ /usr/local/bin
 # Force MOTD generation (will only work on 14.04)
 run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic
 
+# Work around Vagrant 1.6.1 output
+echo "progress = dot:giga" > $HOME/.wgetrc
+
 # Build/install Ruby (our fork of chruby will not automatically build all rubies)
 cd /usr/local/src
 curl -s -L "https://github.com/railsbridge-boston/chruby/archive/v$RAILSBRIDGE_CHRUBY_VERSION.tar.gz" | tar xzv
