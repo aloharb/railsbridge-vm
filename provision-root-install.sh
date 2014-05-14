@@ -2,7 +2,8 @@
 
 # Set versions here
 RAILSBRIDGE_RUBY_VERSION='2.0'
-RAILSBRIDGE_CHRUBY_VERSION='0.3.8.rbb201405.4'
+RAILSBRIDGE_CHRUBY_VERSION='0.4.FIXME'
+RAILSBRIDGE_RUBY_INSTALL_VERSION='0.4.FIXME'
 
 # Tell the shell to print commands before running them
 set -v
@@ -23,8 +24,14 @@ rsync -rtv /vagrant/binfiles/ /usr/local/bin
 # Force MOTD generation (will only work on 14.04)
 run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic
 
-# Build/install Ruby (our fork of chruby will not automatically build all rubies)
+# Download sources here
+mkdir -p /usr/local/src # FIXME: not sure if shipped by Ubuntu, but chruby no longer creates it
 cd /usr/local/src
-curl -s -L "https://github.com/railsbridge-boston/chruby/archive/v$RAILSBRIDGE_CHRUBY_VERSION.tar.gz" | tar xzv
+# Install chruby
+curl -s -L "https://github.com/postmodern/chruby/archive/v$RAILSBRIDGE_CHRUBY_VERSION.tar.gz" | tar xzv
 (cd "chruby-$RAILSBRIDGE_CHRUBY_VERSION" && ./scripts/setup.sh)
+# Install ruby-install
+curl -s -L "https://github.com/postmodern/ruby-install/archive/v$RAILSBRIDGE_RUBY_INSTALL_VERSION.tar.gz" | tar xzv
+(cd "ruby-install-$RAILSBRIDGE_RUBY_INSTALL_VERSION" && make install)
+# Build Ruby
 ruby-install ruby "$RAILSBRIDGE_RUBY_VERSION" -- --disable-install-rdoc
