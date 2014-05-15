@@ -1,11 +1,11 @@
 # RailsBridge VM provision script (user part)
 
 # Set versions here
-RAILSBRIDGE_RAILS_VERSION='4.0.5'
+RAILSBRIDGE_RAILS_VERSION='4.1.1'
 
 # Put the right `gem` in our PATH (do this before turning on -v)
 . /usr/local/share/chruby/chruby.sh
-chruby ruby-2.0
+chruby ruby-2.1
 
 # Tell the shell to print commands before running them
 set -v
